@@ -4,36 +4,25 @@ import api from '../../services/api';
 import '../../styles/Home.css';
 
 export default function Home() {
-  const [hearthstoneCards, setHearthstoneCards] = useState([]);
+  const [cardTypes, setCardTypes] = useState({});
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
-    async function fetchHearthstoneCards() {
+    async function fetchCards() {
       try {
         const response = await api.get('/cards');
-        const results = response.data.results;
+        const results = response.data;
 
-        if (!results) {
-          throw new Error('Results are undefined or empty.');
-        }
+        console.log('results', results);
 
-        const hearthstoneCardsData = await Promise.all(
-          results.map(async (card) => {
-            const cardResponse = await api.get(card.url);
-            return cardResponse.data;
-          })
-        );
-
-        setHearthstoneCards(hearthstoneCardsData);
+        setCardTypes(results);
+        setLoading(false);
       } catch (error) {
-        console.error('Error fetching Hearthstone Cards:', error.message);
-        setError('Error fetching Hearthstone information. Please try again later.');
-      } finally {
+        console.error('Error fetching Hearthstone cards:', error);
         setLoading(false);
       }
     }
-    fetchHearthstoneCards();
+    fetchCards();
   }, []);
 
   return (
@@ -47,26 +36,42 @@ export default function Home() {
         </div>
       )}
 
-      {error && <p>{error}</p>}
-
       <div
-        className="cards-container"
         style={{
+          display: 'flex',
+          justifyContent: 'space-around',
+          flexDirection: 'row',
+          flexWrap: 'wrap',
           opacity: loading ? 0.5 : 1,
           pointerEvents: loading ? 'none' : 'auto',
         }}
       >
-        {hearthstoneCards.map((card) => (
-          <Link
-            key={card.name}
-            to={`/cards/${card.name}`}
-            className={`card ${card.types[0].type.name}`}
-          >
-            <div>
-              <img src={card.sprites.front_default} alt="Hearthstone Cards Sprite" />
-              <p className='card-name'>{card.name.toUpperCase()}</p>
+        {Object.keys(cardTypes).map((type, index) => (
+          <div key={index}>
+            <h2>{type}</h2>
+            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+              {cardTypes[type].map((card, i) => (
+                // Verifica se a carta tem uma imagem antes de renderizá-la
+                card.img && (
+                  <Link
+                    key={i}
+                    to={`/cards/${card.name}`}
+                    className="card-link"
+                  >
+                    <div>
+                      <img
+                        src={card.img}
+                        alt=""
+                      />
+                      <p className="nameHearthstone">
+                        {card.name && card.name.toUpperCase()}
+                      </p>
+                    </div>
+                  </Link>
+                )
+              ))}
             </div>
-          </Link>
+          </div>
         ))}
       </div>
     </div>

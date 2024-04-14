@@ -1,18 +1,12 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './Pages/Home';
-import Card from './Pages/Card';
+import RoutesApp from './routes.js';
+import './App.css';
 
-function RoutesApp() {
+function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/cards" element={<Home />} />
-        <Route path="/cards/:CardName" element={<Card />} />
-      </Routes>
-    </BrowserRouter>
+    <div className="App">
+      <RoutesApp />
+    </div>
   );
 }
 
-export default RoutesApp;
+export default App;
