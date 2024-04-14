@@ -1,0 +1,49 @@
+main {
+  width: 1300px;
+  height: 1000px;
+
+  margin: 0 auto;
+
+  padding-right: 30px;
+  padding-left: 25px;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  margin-top: 210px;
+}
+
+.select-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  width: 1271px;
+
+  margin-bottom: 10px;
+}
+
+.wrapper-content {
+  display: flex;
+  flex-direction: row;
+
+  width: 1245px;
+  height: 550px;
+
+  flex-wrap: wrap;
+
+  overflow-x: hidden;
+
+  background-color: #42f5f5;
+
+  border: 3px solid #000000;
+  border-radius: 30px;
+
+  top: 355px;
+  left: 310px;
+
+  padding: 10px 10px;
+}
